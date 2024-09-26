@@ -1,0 +1,8 @@
+.active {
+    background-color: #0d181a; 
+    color: #dadada;
+}
+
+.active svg {
+    color: #00796b; 
+}

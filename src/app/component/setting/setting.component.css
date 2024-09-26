@@ -1,0 +1,12 @@
+/* Optional CSS */
+body {
+    margin: 0; /* Remove default body margin */
+}
+
+.bg-cover {
+    background-size: cover; /* Cover the entire area */
+}
+
+.bg-center {
+    background-position: center; /* Center the background image */
+}
