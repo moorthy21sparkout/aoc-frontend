@@ -1,0 +1,57 @@
+    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+        <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                    <div class="w-full md:w-1/2"></div>
+                    <div class="flex items-center space-x-3 w-full md:w-auto">
+                        <a [routerLink]="['/initiative/add']">
+                            <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                Add
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-4 py-3">ORDER *N</th>
+                                <th scope="col" class="px-4 py-3">NAME OF THE INITIATIVE</th>
+                                <th scope="col" class="px-4 py-3">START</th>
+                                <th scope="col" class="px-4 py-3">END</th>
+                                <th scope="col" class="px-4 py-3">IDENTIFIER</th>
+                                <th scope="col" class="px-4 py-3">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b dark:border-gray-700">
+                                <td class="px-4 py-3">1</td>
+                                <td class="px-4 py-3">AOCBEP20 TOKEN FLASH BOOKING BY GRACE
+                                    (open to all AOC members who took part in AOC ERC20
+                                    V1 over abundance project)</td>
+                                <td class="px-4 py-3">02/07/2022 at 12:00AM GMT</td>
+                                <td class="px-4 py-3">02/13/2022 at 12:00AM GMT</td>
+                                <td class="px-4 py-3">JHWHJCNHSAOC1</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center space-x-2">
+                                        <a [routerLink]="['/initiative/edit']">
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                                                  </svg>
+                                        </a> 
+                                            <a [routerLink]="['/initiative/delete']">
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                                  </svg>
+                                            </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
