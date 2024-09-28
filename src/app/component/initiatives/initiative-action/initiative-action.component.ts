@@ -23,7 +23,10 @@ export class InitiativeActionComponent implements OnInit{
   };
 
   isEdit: boolean = false;
-  constructor(private router:Router,private route: ActivatedRoute,private apiService:ApiService,
+  constructor(
+    private router:Router,
+    private route: ActivatedRoute,
+    private apiService:ApiService,
     private toastr: ToastrService
   ){}
 
@@ -34,30 +37,39 @@ export class InitiativeActionComponent implements OnInit{
         this.getInitiativeDetails(params['id']);
       } else {
         this.isEdit = false;
-        // this.initiative = {};
       }
     });
   }
+  /**
+   * @param id The id of the initiative to fetch.
+   */
   getInitiativeDetails(id: string) {
     this.apiService.getInitiativeById(id).subscribe((data) => {
-      // this.initiative = data;
-    });
+
+    },
+    (error) => {
+        this.toastr.error('Error getting initiative details');
+      }
+  );
   }
+  /** 
+   * @param initiativeForm The form that was submitted.
+   */
+
   onSubmit(initiativeForm: NgForm): void {
     if (initiativeForm.valid) {
       if (this.isEdit) {
         this.apiService.updateInitiative(this.initiative.id, this.initiative).subscribe(
           (data) => {
-            console.log('Initiative updated successfully:', data);
+            this.router.navigate(['/initiative']);
+            this.toastr.success('Initiative updated successfully')
           },
           (error) => {
-            console.error('Error updating initiative:', error);
+            this.toastr.error('Error updating initiative');
           }
         )
-        console.log('Editing initiative:', this.initiative);
       } else {
         this.toastr.success("Successful Connected");
-        console.log('Adding initiative:', this.initiative);
       }
       this.router.navigate(['/initiative']);
     }

@@ -18,7 +18,10 @@ import { ToastrService } from 'ngx-toastr';
 export class HeaderComponent implements OnInit{
 
 
-  constructor( private apiService: ApiService,private router: Router,private wagmiService:WagmiService,
+  constructor( 
+    private apiService: ApiService,
+    private router: Router,
+    private wagmiService:WagmiService,
     private toastr: ToastrService
   ){}
   ngOnInit() {
@@ -30,26 +33,18 @@ export class HeaderComponent implements OnInit{
   private setupAccountWatcher() {
     watchAccount( async(account) => {
       if(account.address){
-        // try {
-        //   // Calling the service method and subscribing to the Observable
-        //   this.apiService.sendAccountAddress(account.address).subscribe({
-        //     next: (res) => {
-        //       console.log("Connected:", res);
-        //       this.router.navigate(['/initiative']);
-        //     },
-        //     error: (err) => {
-        //       console.log("Connection failed:", err);
-        //     }
-        //   });
-        // }
-        try{
-            this.apiService.sendAccountAddress(account.address)
-           console.log("connected");
-           this.toastr.success("Successful Connected");
-           this.router.navigate(['/initiative']);
+        try {
+          this.apiService.sendAccountAddress(account.address).subscribe({
+            next: (res) => {
+              this.toastr.success('Successful Connected');
+              this.router.navigate(['/initiative']);
+            },
+            error: (err) => {
+              this.toastr.error('Failed to connect');
+            }
+          });
         }
         catch(err){
-          console.log("not connect",err);
           this.toastr.error("Connection errror");
         }
       }else{
