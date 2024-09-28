@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 export class HeaderComponent implements OnInit{
 
 
-  constructor( 
+  constructor(
     private apiService: ApiService,
     private router: Router,
     private wagmiService:WagmiService,
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit{
      this.setupAccountWatcher();
   }
 
-  
+
   private setupAccountWatcher() {
     watchAccount( async(account) => {
       if(account.address){

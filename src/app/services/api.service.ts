@@ -23,46 +23,6 @@ export class ApiService {
    */
   inAuthenticate(): boolean {
     const wagmiAccount = JSON.parse(localStorage.getItem('wagmi.store') || '{}');
-    return !!wagmiAccount?.state?.data?.account; // Returns true if connected
+    return !!wagmiAccount?.state?.data?.account;
   }
-
-/**
- * @returns An observable of the list of initiatives. 
- */
-  getInitiativeList(): Observable<any> {
-    return this.http.get<any>(`${environment.API_BASE_URL}/list-initiatives?page=1&limit=5&search=`);
-  }
-
- /**
-   * @param initiative The new initiative data
-   */
-  addInitiative(initiative: any):Observable<any> {
-    return this.http.post<any>(`${environment.API_BASE_URL}/add-initiative`,initiative);
-  }
-
-  /**
-   * @param id The id of the initiative to fetch
-   */
- 
-    getInitiativeById(id: string) {
-      return this.http.get(`/api/v1/admin/initiative/${id}`);
-    }
-
-    
-  /**
-   * @param id The id of the initiative to update.
-   * @returns An observable of the update result.
-   */
-   updateInitiative(id: string, initiativeData: any):Observable<any> {
-    return this.http.put(`/api/v1/admin/initiative/${id}`, initiativeData);
-  }
-
-  /**
-   * @param id The id of the initiative to delete.
-   */
-  deleteInitiative(id:string){
-    return this.http.delete(`${environment.API_BASE_URL}/initiatives/${id}`);
-
-  }
-
 }

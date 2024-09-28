@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { SidebarComponent } from "../../sidebar/sidebar.component";
-import { ApiService } from '../../../services/api.service';
 import {  RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { Initiative, PaginatedResponse } from '../../../interfaces/initiative.interface';
+import { InitiativeService } from '../../../services/initiative.service';
 
 
 @Component({
@@ -16,22 +17,37 @@ import { CommonModule } from '@angular/common';
 })
 export class InitiativeComponent implements OnInit{
 constructor(
-  private apiService:ApiService,
-  private toastr: ToastrService
+  private toastr: ToastrService,
+  private initiveService:InitiativeService
 ){}
 
-initiativeList: any = [];
+initiativeList: Initiative[] = [
+];
+total: number = 0;
+page: number = 1;
+perPage: number = 10;
 deleteInitiativeId: string|null = null;
 isDeleteModalOpen = false;
 
 ngOnInit()  {
-  this.initiativeList = this.apiService.getInitiativeList().subscribe((response) => {
+    this.initiveService.getInitiativeList().subscribe((response:Initiative[]) => {
     this.initiativeList = response;
   });
 }
 
+/**
+ * @return {void} This function does not return anything.
+ */
+public loadInitiavites(): void {
+  this.initiveService.getInitiativesPageList(this.page, this.perPage).subscribe((response:PaginatedResponse) => {
+    this.initiativeList = response.data;
+    this.total = response.total;
+  },
+  (error) => {
+    this.toastr.error('Error loading initiatives',error);
+  });
+}
   /**
-   * Opens the delete confirmation modal.
    * @param id the id of the initiative to delete.
    * @param event the DOM event that triggered the call to this function.
    */
@@ -51,7 +67,7 @@ public closeDeleteModal(){
 }
 
   /**
-   * Confirms the deletion of an initiative, 
+   * Confirms the deletion of an initiative,
    */
 public conformDelete(){
   if (!this.deleteInitiativeId) {
@@ -66,12 +82,12 @@ public conformDelete(){
    * Delete an initiative and refresh the initiative list
    * @param deleteInitiative the id of the initiative to delete
    */
-public deleteInitiative(deleteInitiative: string): void {  
-  this.apiService.deleteInitiative(deleteInitiative).subscribe(
+public deleteInitiative(deleteInitiative: string): void {
+  this.initiveService.deleteInitiative(deleteInitiative).subscribe(
     (response) => {
-      this.apiService.getInitiativeList();
+      this.initiveService.getInitiativeList();
     },
-    (error) => {  
+    (error) => {
       this.toastr.error('Error deleting initiative');
     }
   );

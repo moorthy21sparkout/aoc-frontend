@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { InitiativeService } from '../../../services/initiative.service';
 
 @Component({
   selector: 'app-initiative-action',
@@ -26,8 +27,8 @@ export class InitiativeActionComponent implements OnInit{
   constructor(
     private router:Router,
     private route: ActivatedRoute,
-    private apiService:ApiService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private initiativeService:InitiativeService
   ){}
 
   ngOnInit() {
@@ -44,7 +45,7 @@ export class InitiativeActionComponent implements OnInit{
    * @param id The id of the initiative to fetch.
    */
   getInitiativeDetails(id: string) {
-    this.apiService.getInitiativeById(id).subscribe((data) => {
+    this.initiativeService.getInitiativeById(id).subscribe((data) => {
 
     },
     (error) => {
@@ -52,14 +53,14 @@ export class InitiativeActionComponent implements OnInit{
       }
   );
   }
-  /** 
+  /**
    * @param initiativeForm The form that was submitted.
    */
 
   onSubmit(initiativeForm: NgForm): void {
     if (initiativeForm.valid) {
       if (this.isEdit) {
-        this.apiService.updateInitiative(this.initiative.id, this.initiative).subscribe(
+        this.initiativeService.updateInitiative(this.initiative.id, this.initiative).subscribe(
           (data) => {
             this.router.navigate(['/initiative']);
             this.toastr.success('Initiative updated successfully')
