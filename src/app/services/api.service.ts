@@ -14,8 +14,10 @@ export class ApiService {
    * @param address The user's wallet address.
    * @returns An observable with the response of the API.
    */
-  sendAccountAddress(address: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { address });
+  sendAccountAddress(wallet_address: string): Observable<any> {
+    console.log("sendAccountAddress", wallet_address);
+    
+    return this.http.post(`${this.apiUrl}/login`, {wallet_address});
   }
 
   /**

@@ -17,7 +17,7 @@ export class InitiativeActionComponent implements OnInit{
 
   initiative  = {
     id:'',
-    name:'',
+    initiative_Name:'',
     start: '',
     end: '',
     identifier: ''
@@ -60,6 +60,7 @@ export class InitiativeActionComponent implements OnInit{
   onSubmit(initiativeForm: NgForm): void {
     if (initiativeForm.valid) {
       if (this.isEdit) {
+        alert(3);
         this.initiativeService.updateInitiative(this.initiative.id, this.initiative).subscribe(
           (data) => {
             this.router.navigate(['/initiative']);
@@ -70,7 +71,15 @@ export class InitiativeActionComponent implements OnInit{
           }
         )
       } else {
-        this.toastr.success("Successful Connected");
+        this.initiativeService.createInitiative(this.initiative).subscribe(
+          (data) => {
+            this.toastr.success('Initiative created successfully');
+            this.router.navigate(['/initiative']);
+          },
+          (error) => {
+            this.toastr.error('Error creating initiative');
+          }
+        )
       }
       this.router.navigate(['/initiative']);
     }

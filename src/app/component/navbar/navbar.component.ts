@@ -28,29 +28,8 @@ export class NavbarComponent implements OnInit{
   }
   ngOnInit() {
     this.wagmiService.wagmiConfiguration();
-    this.setupAccountWatcher();
+    this.wagmiService.setupAccountWatcher();
   }
-  public setupAccountWatcher() {
-    watchAccount( async(account) => {
-      if (account.address) {
-        try {
-          this.apiService.sendAccountAddress(account.address).subscribe({
-            next: (response) => {
-              console.log("Connected:", response);
-              this.router.navigate(['/initiative']); 
-            },
-            error: (err) => {
-              console.error("Failed to connect:", err);
-            }
-          });
-        } catch (err) {
-          console.error("Unexpected error occurred", err);
-        }
-      } else {
-        this.toastr.error("Wallet dissconnected ");
-        this.router.navigate(['/']);
-      }
-    });
- }
+ 
 }
            

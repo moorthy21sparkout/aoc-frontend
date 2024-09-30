@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {  PaginatedResponse } from '../interfaces/initiative.interface';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,21 +8,21 @@ import { Observable } from 'rxjs';
 })
 export class InitiativeService {
 
-  private apiURL=environment.API_BASE_URL+'api/v1/admin';
+  private apiURL=environment.API_BASE_URL+'/api/v1/admin';
   constructor(private http:HttpClient) { }
 
   /**
  * @returns An observable of the list of initiatives.
  */
-  getInitiativeList(): Observable<any> {
-    return this.http.get<any>(`${environment.API_BASE_URL}/list-initiatives?page=1&limit=5&search=`);
+  getInitiativeList(page: number, limit:number): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/list-initiatives?page=${page}&limit=${limit}&search=`);
   }
 
  /**
    * @param initiative The new initiative data
    */
-  addInitiative(initiative: any):Observable<any> {
-    return this.http.post<any>(`${environment.API_BASE_URL}/add-initiative`,initiative);
+  createInitiative(initiative: any):Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/create-initiative`,initiative);
   }
 
   /**
@@ -47,7 +46,7 @@ export class InitiativeService {
    * @param id The id of the initiative to delete.
    */
   deleteInitiative(id:string){
-    return this.http.delete(`${environment.API_BASE_URL}/initiatives/${id}`);
+    return this.http.delete(`${this.apiURL}/initiatives/${id}`);
 
   }
     /**
@@ -55,8 +54,8 @@ export class InitiativeService {
    * @param {number} limit - The number of initiatives to return per page.
    * @return {Observable<PaginatedResponse>} An observable containing the paginated response.
    */
-  getInitiativesPageList(page: number, limit: number): Observable<PaginatedResponse> {
-    return this.http.get<PaginatedResponse>(`${this.apiURL}/initiatives?page=${page}&limit=${limit}`);
+  getInitiativesPageList(): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/list-initiatives?page=1&limit=5&search=`);
 
   }
 }

@@ -26,30 +26,9 @@ export class HeaderComponent implements OnInit{
   ){}
   ngOnInit() {
     this.wagmiService.wagmiConfiguration();
-     this.setupAccountWatcher();
+     this.wagmiService.setupAccountWatcher();
+     
   }
 
 
-  private setupAccountWatcher() {
-    watchAccount( async(account) => {
-      if(account.address){
-        try {
-          this.apiService.sendAccountAddress(account.address).subscribe({
-            next: (res) => {
-              this.toastr.success('Successful Connected');
-              this.router.navigate(['/initiative']);
-            },
-            error: (err) => {
-              this.toastr.error('Failed to connect');
-            }
-          });
-        }
-        catch(err){
-          this.toastr.error("Connection errror");
-        }
-      }else{
-        this.router.navigate(['/']);
-      }
-    });
-  }
 }

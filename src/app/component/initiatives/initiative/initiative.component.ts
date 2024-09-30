@@ -4,7 +4,7 @@ import { SidebarComponent } from "../../sidebar/sidebar.component";
 import {  RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { Initiative, PaginatedResponse } from '../../../interfaces/initiative.interface';
+import { Initiative } from '../../../interfaces/initiative.interface';
 import { InitiativeService } from '../../../services/initiative.service';
 
 
@@ -25,28 +25,22 @@ initiativeList: Initiative[] = [
 ];
 total: number = 0;
 page: number = 1;
-perPage: number = 10;
+perPage: number = 5;
 deleteInitiativeId: string|null = null;
 isDeleteModalOpen = false;
 
 ngOnInit()  {
-    this.initiveService.getInitiativeList().subscribe((response:Initiative[]) => {
-    this.initiativeList = response;
+    this.initiveService.getInitiativeList(this.page, this.perPage).subscribe((response) => {
+      console.log("initiatives",response);
+      
+    this.initiativeList = response.data;
+    this.total = response.total;
+    console.log("initiativeList", this.initiativeList );
+    
   });
 }
 
-/**
- * @return {void} This function does not return anything.
- */
-public loadInitiavites(): void {
-  this.initiveService.getInitiativesPageList(this.page, this.perPage).subscribe((response:PaginatedResponse) => {
-    this.initiativeList = response.data;
-    this.total = response.total;
-  },
-  (error) => {
-    this.toastr.error('Error loading initiatives',error);
-  });
-}
+
   /**
    * @param id the id of the initiative to delete.
    * @param event the DOM event that triggered the call to this function.
@@ -85,7 +79,10 @@ public conformDelete(){
 public deleteInitiative(deleteInitiative: string): void {
   this.initiveService.deleteInitiative(deleteInitiative).subscribe(
     (response) => {
-      this.initiveService.getInitiativeList();
+      this.initiveService.getInitiativeList(this.page, this.perPage).subscribe((response) => {
+        this.initiativeList = response.data;
+        this.total = response.total;
+      });
     },
     (error) => {
       this.toastr.error('Error deleting initiative');

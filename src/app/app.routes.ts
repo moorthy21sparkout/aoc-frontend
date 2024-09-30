@@ -7,7 +7,7 @@ import { InitiativeActionComponent } from './component/initiatives/initiative-ac
 import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
-    {path:'',component:HeaderComponent,canActivate:[authGuard]},
+    {path:'',component:HeaderComponent},
     {
         path: 'initiative',
         component: DashboardComponent,

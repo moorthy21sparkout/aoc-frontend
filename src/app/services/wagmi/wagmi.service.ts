@@ -4,13 +4,17 @@ import * as wagmiConfig from './wagmi.config';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
+import { watchAccount } from '@wagmi/core';
+import { ToastrService } from 'ngx-toastr';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class WagmiService {
 
-  constructor(private apiService:ApiService,private router:Router,
+  constructor(private apiService:ApiService,private router:Router,private toastr: ToastrService
   ) { }
 
   public wagmiConfiguration() {
@@ -23,5 +27,27 @@ export class WagmiService {
       themeVariables: wagmiConfig.config.themeVariables
     })
   }
-  
+  public setupAccountWatcher() {
+    watchAccount( async(account) => {
+      if (account.address) {
+        try {
+          this.apiService.sendAccountAddress(account.address).subscribe({
+            next: (response) => {
+              localStorage.setItem('session_token',response.data.session.session_token);
+              console.log("response",response);
+              this.router.navigate(['/initiative']); 
+            },
+            error: (err) => {
+              console.error("Failed to connect:", err);
+            }
+          });
+        } catch (err) {
+          console.error("Unexpected error occurred", err);
+        }
+      } else {
+        this.toastr.error("Wallet dissconnected ");
+        this.router.navigate(['/']);
+      }
+    });
+ }
 }
