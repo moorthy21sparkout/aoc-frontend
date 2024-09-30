@@ -17,19 +17,28 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  
+
 })
 export class NavbarComponent implements OnInit{
 
   constructor(private apiService:ApiService,private router:Router,private wagmiService:WagmiService,
     private toastr: ToastrService
-   
+
   ) {
   }
   ngOnInit() {
     this.wagmiService.wagmiConfiguration();
-    this.wagmiService.setupAccountWatcher();
+    this.wagmiService.setupAccountWatcher().subscribe({
+      next: (result: any) => {
+        if (result.success) {
+          this.router.navigate(['/initiative']);
+        } else {
+          this.router.navigate(['/']);
+        }
+      },
+      error: (err) => {
+        this.toastr.error("Error connecting to the wallet", err);
+      }
+    });
   }
- 
 }
-           

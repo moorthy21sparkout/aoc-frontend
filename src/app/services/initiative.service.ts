@@ -45,8 +45,8 @@ export class InitiativeService {
   /**
    * @param id The id of the initiative to delete.
    */
-  deleteInitiative(id:string){
-    return this.http.delete(`${this.apiURL}/initiatives/${id}`);
+  deleteInitiative(id:any) {
+    return this.http.delete(`${this.apiURL}/delete-initiative/${id}`);
 
   }
     /**

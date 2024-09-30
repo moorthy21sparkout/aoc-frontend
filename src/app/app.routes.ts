@@ -15,7 +15,7 @@ export const routes: Routes = [
             { path: '', component: InitiativeComponent },
             { path: 'setting', component: SettingComponent } ,
             {path:'add',component:InitiativeActionComponent},
-            { path: 'edit', component: InitiativeActionComponent },
+            { path: 'edit/:id', component: InitiativeActionComponent },
         ]
       },
       { path: '', redirectTo: '/', pathMatch: 'full' },

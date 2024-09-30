@@ -17,9 +17,9 @@ export class InitiativeActionComponent implements OnInit{
 
   initiative  = {
     id:'',
-    initiative_Name:'',
-    start: '',
-    end: '',
+    initiative:'',
+    start_period: '',
+    end_period: '',
     identifier: ''
   };
 
@@ -28,7 +28,8 @@ export class InitiativeActionComponent implements OnInit{
     private router:Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private initiativeService:InitiativeService
+    private initiativeService:InitiativeService,
+    private apiService:ApiService
   ){}
 
   ngOnInit() {
@@ -71,7 +72,15 @@ export class InitiativeActionComponent implements OnInit{
           }
         )
       } else {
-        this.initiativeService.createInitiative(this.initiative).subscribe(
+        const { id, ...initiativeWithoutId } = this.initiative;
+        const wallet_address = this.apiService.accountAddress();
+
+        const initiativeWithAddress = {
+            ...initiativeWithoutId,
+            wallet_address
+        };
+        console.log("initiativeWithAddrss",initiativeWithAddress);
+        this.initiativeService.createInitiative(initiativeWithAddress).subscribe(
           (data) => {
             this.toastr.success('Initiative created successfully');
             this.router.navigate(['/initiative']);

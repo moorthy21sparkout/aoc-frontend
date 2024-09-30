@@ -25,42 +25,37 @@
                         </thead>
                        <tbody>
                             <tr *ngFor="let initiative of initiativeList; let i = index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                              <td class="px-4 py-3">{{ initiative.id }}</td>
-                              <td class="px-4 py-3">{{ initiative.name }}</td>
-                              <td class="px-4 py-3">{{ initiative.start }}</td>
-                              <td class="px-4 py-3">{{ initiative.end }}</td>
+                              <td class="px-4 py-3">{{ i+1 }}</td>
+                              <td class="px-4 py-3">{{ initiative.initiative }}</td>
+                              <td class="px-4 py-3">{{ initiative.start_period }}</td>
+                              <td class="px-4 py-3">{{ initiative.end_period }}</td>
                               <td class="px-4 py-3">{{ initiative.identifier }}</td>
                               <td class="px-4 py-3">
-                                <a [routerLink]="['/initiative/edit', initiative.id]" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                <div (click)="openDeleteModal(initiative.id, $event)" class="cursor-pointer">
-                                  <a>
-                                      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-                                      </svg>
+                                <div class="flex space-x-2">
+                                  <!-- Edit Button -->
+                                  <a [routerLink]="['/initiative/edit',initiative._id]" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                    <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                      Edit
+                                    </button>
                                   </a>
-                                      <div *ngIf="isDeleteModalOpen" class="fixed top-0 left-0 right-0 z-50 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-                                              <div class="bg-white rounded-lg shadow-md dark:bg-gray-800 max-w-md">
-                                                  <div class="p-4">
-                                                      <h3 class="text-lg font-medium text-gray-900 dark:text-white">Are you sure you want to delete this initiative?</h3>
-                                                      <div class="mt-4 flex justify-end">
-                                                          <button class="px-4 py-2 bg-gray-300 rounded-md mr-2" (click)="closeDeleteModal()">Cancel</button>
-                                                          <button class="px-4 py-2 bg-red-600 text-white rounded-md" (click)="conformDelete()">Delete</button>
-                                                      </div>
-                                                  </div>
-                                              </div>
+                                  <!-- Delete Button -->
+                                  <div (click)="openDeleteModal(initiative._id)" class="cursor-pointer">
+                                    <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                      Delete
+                                    </button>
+                                  </div>
+                                </div>
+                                  <div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50" *ngIf="isDeleteModalOpen">
+                                    <div class="bg-white rounded-lg shadow-md dark:bg-gray-800 max-w-md">
+                                        <div class="p-4">
+                                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Are you sure you want to delete this project?</h3>
+                                            <div class="mt-4 flex justify-end">
+                                                <button class="px-4 py-2 bg-gray-300 rounded-md mr-2" (click)="closeDeleteModal()">Cancel</button>
+                                                <button class="px-4 py-2 bg-red-600 text-white rounded-md" (click)="confirmDelete()">Delete</button>
+                                            </div>
                                         </div>
-                                        <div *ngIf="isDeleteModalOpen" class="fixed top-0 left-0 right-0 z-50 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-                                          <div class="bg-white rounded-lg shadow-md dark:bg-gray-800 max-w-md">
-                                              <div class="p-4">
-                                                  <h3 class="text-lg font-medium text-gray-900 dark:text-white">Are you sure you want to delete this initiative?</h3>
-                                                  <div class="mt-4 flex justify-end">
-                                                      <button class="px-4 py-2 bg-gray-300 rounded-md mr-2" (click)="closeDeleteModal()">Cancel</button>
-                                                      <button class="px-4 py-2 bg-red-600 text-white rounded-md" (click)="conformDelete()">Delete</button>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                              </div>
+                                    </div>
+                                  </div>
                               </td>
                             </tr>
                             </tbody>

@@ -1,8 +1,8 @@
 export interface Initiative {
-  id: string;
-  name: string;
-  start: string;
-  end: string;
+  _id: string;
+  initiative: string;
+  start_period: string;
+  end_period: string;
   identifier: string;
 }
 export interface PaginatedResponse{

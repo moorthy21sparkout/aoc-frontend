@@ -26,27 +26,29 @@ initiativeList: Initiative[] = [
 total: number = 0;
 page: number = 1;
 perPage: number = 5;
-deleteInitiativeId: string|null = null;
+deleteInitiativeId = '';
 isDeleteModalOpen = false;
 
 ngOnInit()  {
-    this.initiveService.getInitiativeList(this.page, this.perPage).subscribe((response) => {
-      console.log("initiatives",response);
-      
-    this.initiativeList = response.data;
-    this.total = response.total;
-    console.log("initiativeList", this.initiativeList );
-    
-  });
+  this.listInitiatives(this.page, this.perPage);
 }
 
+/**
+ * @param {number} page - The page number to retrieve.
+ * @param {number} limit - The number of initiatives to return per page.
+ */
+listInitiatives(page: number, limit: number) {
+  this.initiveService.getInitiativeList(page, limit).subscribe((response) => {
+    this.initiativeList = response?.data?.docs;
+    this.total = response.total;
+  });
+}
 
   /**
    * @param id the id of the initiative to delete.
    * @param event the DOM event that triggered the call to this function.
    */
-public openDeleteModal(id:string,event:Event){
-  event.preventDefault();
+public openDeleteModal(id: string) {
   this.deleteInitiativeId = id;
   this.isDeleteModalOpen = true;
 }
@@ -57,16 +59,12 @@ public openDeleteModal(id:string,event:Event){
    */
 public closeDeleteModal(){
   this.isDeleteModalOpen = false;
-  this.deleteInitiativeId = null;
 }
 
   /**
    * Confirms the deletion of an initiative,
    */
-public conformDelete(){
-  if (!this.deleteInitiativeId) {
-    return;
-  }
+public confirmDelete(){
   this.deleteInitiative(this.deleteInitiativeId);
   this.closeDeleteModal();
 }
@@ -76,19 +74,15 @@ public conformDelete(){
    * Delete an initiative and refresh the initiative list
    * @param deleteInitiative the id of the initiative to delete
    */
-public deleteInitiative(deleteInitiative: string): void {
-  this.initiveService.deleteInitiative(deleteInitiative).subscribe(
+public deleteInitiative(id: any) {
+  this.initiveService.deleteInitiative(id).subscribe(
     (response) => {
-      this.initiveService.getInitiativeList(this.page, this.perPage).subscribe((response) => {
-        this.initiativeList = response.data;
-        this.total = response.total;
-      });
-    },
+      this.toastr.success('Initiative deleted successfully');
+      this.listInitiatives(this.page, this.perPage);
+
+      },
     (error) => {
       this.toastr.error('Error deleting initiative');
+    });
     }
-  );
-}
-
-
 }
