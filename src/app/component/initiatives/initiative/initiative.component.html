@@ -61,8 +61,20 @@
                             </tbody>
                     </table>
                 </div>
+                 <!-- Pagination Controls -->
+                 <div class="flex justify-center mt-4 space-x-1">
+                    <button (click)="previousPage()" [disabled]="page === 1" class="px-4 py-2 bg-gray-300 text-gray-600 rounded-md">
+                      Previous
+                    </button>
+                    <button *ngFor="let p of [].constructor(total); let i = index" (click)="goToPage(i + 1)" [class.bg-blue-500]="page === i + 1" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md">
+                      {{ i + 1 }}
+                    </button>
+                    <button (click)="nextPages()" [disabled]="page === total" class="px-4 py-2 bg-gray-300 text-gray-600 rounded-md">
+                      Next
+                    </button>
+                  </div>
+                </div>
             </div>
-        </div>
     </section>
 
 

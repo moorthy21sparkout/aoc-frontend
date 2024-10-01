@@ -26,11 +26,58 @@ initiativeList: Initiative[] = [
 total: number = 0;
 page: number = 1;
 perPage: number = 5;
+totalDocs:any='';
+hasNextPage: boolean = false;
+hasPrevPage: boolean = false;
+nextPage: number|null = null;
+prevPage: number|null = null;
 deleteInitiativeId = '';
 isDeleteModalOpen = false;
 
 ngOnInit()  {
   this.listInitiatives(this.page, this.perPage);
+  this.fetchInitiatives(this.page);
+}
+
+fetchInitiatives(page:number) {
+  this.initiveService.getInitiativeList(this.page, this.perPage).subscribe(response => {
+
+    this.initiativeList = response.data.docs;
+    this.totalDocs = response.data.totalDocs;
+    this.total = Math.ceil(this.totalDocs / this.perPage);
+  });
+}
+
+/**
+ * @param {number} page - The page number to navigate to.
+ * @return {void} This function does not return a value.
+ */
+goToPage(page: number) {
+  if (page >= 1 && page <= this.total) {
+    this.page = page;
+    this.fetchInitiatives(page);
+  }
+}
+
+/**
+ * @return {void} This function does not return a value.
+ */
+nextPages() {
+  if (this.page < this.total) {
+    this.page++;
+    this.fetchInitiatives(this.page);
+  }
+}
+
+
+/**
+ * @return {void} This function does not return a value.
+ */
+previousPage() {
+  if (this.page > 1) {
+    this.page--;
+    this.fetchInitiatives(this.page);
+  }
 }
 
 /**
@@ -79,6 +126,7 @@ public deleteInitiative(id: any) {
     (response) => {
       this.toastr.success('Initiative deleted successfully');
       this.listInitiatives(this.page, this.perPage);
+      this.fetchInitiatives(this.page);
 
       },
     (error) => {
